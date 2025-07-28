@@ -1,5 +1,4 @@
-using Tms.Domain;
-using Tms.Domain.Entities;
+using Tms.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDomainServices();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
