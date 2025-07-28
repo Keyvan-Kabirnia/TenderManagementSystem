@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tms.Domain.Entities;
-public class Bid : BaseEntity
+public class BidEntity : BaseEntity
 {
     public decimal Amount { get; set; }
-    public string Comment { get; set; } = string.Empty;
     public DateTime SubmissionDate { get; set; }
 
     // FKs
@@ -18,7 +17,7 @@ public class Bid : BaseEntity
     public int VendorId { get; set; }
 
     // Navigations
-    public virtual Status Status { get; set; } = null!;
-    public virtual Tender Tender { get; set; } = null!;
-    public virtual Vendor Vendor { get; set; } = null!;
+    public virtual StatusEntity Status { get; set; } = null!;
+    public virtual TenderEntity Tender { get; set; } = null!;
+    public virtual VendorEntity Vendor { get; set; } = null!;
 }

@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tms.Domain.Entities;
-public class Status : BaseEntity
+public class CategoryEntity : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public string Type { get; set; } = string.Empty; // "Tender"/"Bid"
 
     // Navigations
-    public virtual List<Tender> Tenders { get; set; } = [];
-    public virtual List<Bid> Bids { get; set; } = [];
+    public virtual List<TenderEntity> Tenders { get; set; } = [];
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tms.Domain.Entities;
-public class Vendor : BaseEntity
+public class VendorEntity : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
@@ -13,5 +13,5 @@ public class Vendor : BaseEntity
     public string Phone { get; set; } = string.Empty;
 
     // Navigations
-    public virtual List<Bid> Bids { get; set; } = [];
+    public virtual List<BidEntity> Bids { get; set; } = [];
 }
