@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tms.Domain.Entities;
-public class Tender : BaseEntity
+public class TenderEntity : BaseEntity
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -13,12 +13,13 @@ public class Tender : BaseEntity
     public decimal? EstimatedBudget { get; set; }
 
     // FKs
+    public int OwnerId { get; set; }
     public int CategoryId { get; set; }
     public int StatusId { get; set; }
 
     // Navigations
-    public virtual Category Category { get; set; } = null!;
-    public virtual Status Status { get; set; } = null!;
-    public virtual List<Bid> Bids { get; set; } = [];
-
+    public virtual UserEntity Owner { get; set; } = null!;
+    public virtual CategoryEntity Category { get; set; } = null!;
+    public virtual StatusEntity Status { get; set; } = null!;
+    public virtual List<BidEntity> Bids { get; set; } = [];
 }

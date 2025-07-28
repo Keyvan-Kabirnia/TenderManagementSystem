@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using Tms.Domain.Enums;
 
 namespace Tms.Domain.Entities;
-public class User : BaseEntity
+public class UserEntity : BaseEntity
 {
     public string UserName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
     public UserRole Role { get; set; }
+
+    // Navigation
+    public virtual List<TenderEntity> Tenders { get; set; } = [];
 }
