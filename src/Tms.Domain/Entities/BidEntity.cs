@@ -10,6 +10,7 @@ public class BidEntity : BaseEntity
 {
     public decimal Amount { get; set; }
     public DateTime SubmissionDate { get; set; }
+    public string Comments { get; set; }=string.Empty;
 
     // FKs
     public int StatusId { get; set; }

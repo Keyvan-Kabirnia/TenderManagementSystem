@@ -10,7 +10,6 @@ public class TenderEntity : BaseEntity
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public DateTime Deadline { get; set; }
-    public decimal? EstimatedBudget { get; set; }
 
     // FKs
     public int OwnerId { get; set; }

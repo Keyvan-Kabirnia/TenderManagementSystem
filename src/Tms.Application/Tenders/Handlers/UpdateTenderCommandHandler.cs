@@ -1,0 +1,60 @@
+using AutoMapper;
+using MediatR;
+using Tms.Application.DTOs.Tender;
+using Tms.Application.Tenders.Requests;
+using Tms.Domain.Entities;
+using Tms.Domain.Interfaces;
+
+namespace Tms.Application.Tenders.Handlers;
+
+public class UpdateTenderCommandHandler : IRequestHandler<Requests.UpdateTenderRequest, TenderDto>
+{
+    private readonly ITenderRepository _tenderRepository;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly IStatusRepository _statusRepository;
+    private readonly IMapper _mapper;
+
+    public UpdateTenderCommandHandler(
+        ITenderRepository tenderRepository,
+        ICategoryRepository categoryRepository,
+        IStatusRepository statusRepository,
+        IMapper mapper)
+    {
+        _tenderRepository = tenderRepository;
+        _categoryRepository = categoryRepository;
+        _statusRepository = statusRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<TenderDto> Handle(Requests.UpdateTenderRequest request, CancellationToken cancellationToken)
+    {
+        var existingTender = await _tenderRepository.GetByIdAsync(request.Id);
+        if (existingTender is null)
+        {
+            throw new InvalidOperationException("Tender not found");
+        }
+
+        // Validate category exists
+        var category = await _categoryRepository.GetByIdAsync(request.CategoryId);
+        if (category is null)
+        {
+            throw new InvalidOperationException("Category not found");
+        }
+
+        // Validate status exists
+        var status = await _statusRepository.GetByIdAsync(request.StatusId);
+        if (status is null)
+        {
+            throw new InvalidOperationException("Status not found");
+        }
+
+        _mapper.Map(request, existingTender);
+        existingTender.UpdatedAt = DateTime.UtcNow;
+
+        await _tenderRepository.UpdateAsync(existingTender);
+
+        // Reload with related data for response
+        var updatedTender = await _tenderRepository.GetTenderWithDetailsAsync(request.Id);
+        return _mapper.Map<TenderDto>(updatedTender);
+    }
+}

@@ -41,4 +41,20 @@ public class BidRepository(TmsDbContext dbContext) : IBidRepository
         _dbset.Remove(entity);
         await dbContext.SaveChangesAsync();
     }
+
+    // should apply dapper
+    public virtual async Task<IEnumerable<BidEntity>> GetBidsByTenderAsync(int tenderId)
+    {
+        return await _dbset
+            .AsNoTracking()
+            .Where(b => b.TenderId == tenderId)
+            .ToListAsync();
+    }
+
+    public virtual async Task<bool> VendorHasBidOnTenderAsync(int vendorId, int tenderId)
+    {
+        return await _dbset
+            .AsNoTracking()
+            .AnyAsync(b => b.VendorId == vendorId && b.TenderId == tenderId);
+    }
 }

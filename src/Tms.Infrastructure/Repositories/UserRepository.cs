@@ -41,4 +41,20 @@ public class UserRepository(TmsDbContext dbContext) : IUserRepository
         _dbset.Remove(entity);
         await dbContext.SaveChangesAsync();
     }
+
+    // should apply dapper
+    public virtual async Task<UserEntity?> GetByUserNameAsync(string userName)
+    {
+        return await _dbset.AsNoTracking().FirstOrDefaultAsync(u => u.UserName == userName);
+    }
+
+    public virtual async Task<bool> UserNameExistsAsync(string userName)
+    {
+        return await _dbset.AnyAsync(u => u.UserName == userName);
+    }
+
+    public virtual async Task<bool> EmailExistsAsync(string email)
+    {
+        return await _dbset.AnyAsync(u => u.Email == email);
+    }
 }

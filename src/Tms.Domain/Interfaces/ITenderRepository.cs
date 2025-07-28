@@ -17,4 +17,7 @@ public interface ITenderRepository
     Task UpdateAsync(TenderEntity entity);
 
     Task DeleteAsync(TenderEntity entity);
+    Task<TenderEntity?> GetTenderWithDetailsAsync(int id);
+    Task<IEnumerable<TenderEntity>> GetTendersWithCategoryAndStatusAsync(int page, int pageSize);
+    Task<int> GetTotalCountAsync();
 }

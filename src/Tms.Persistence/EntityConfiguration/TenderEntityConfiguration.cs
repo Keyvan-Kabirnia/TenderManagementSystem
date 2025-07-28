@@ -17,7 +17,6 @@ internal class TenderEntityConfiguration : IEntityTypeConfiguration<TenderEntity
         entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
         entity.Property(e => e.Description).IsRequired().HasMaxLength(2000);
         entity.Property(e => e.Deadline).IsRequired();
-        entity.Property(e => e.EstimatedBudget).HasColumnType("decimal(18,2)");
 
         entity.HasOne(e => e.Owner)
             .WithMany(e => e.Tenders)

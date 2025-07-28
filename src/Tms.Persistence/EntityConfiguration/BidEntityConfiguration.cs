@@ -16,6 +16,7 @@ internal class BidEntityConfiguration : IEntityTypeConfiguration<BidEntity>
 
         entity.Property(e => e.Amount).IsRequired().HasColumnType("decimal(18,2)");
         entity.Property(e => e.SubmissionDate).IsRequired();
+        entity.Property(e => e.Comments).HasMaxLength(1000);
 
         entity.HasOne(e => e.Tender)
             .WithMany(e => e.Bids)

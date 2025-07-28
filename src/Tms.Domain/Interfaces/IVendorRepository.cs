@@ -17,4 +17,10 @@ public interface IVendorRepository
     Task UpdateAsync(VendorEntity entity);
 
     Task DeleteAsync(VendorEntity entity);
+
+    Task<VendorEntity?> GetVendorWithBidsAsync(int id);
+
+    Task<IEnumerable<VendorEntity>> GetVendorsWithBidSummaryAsync(int page, int pageSize);
+
+    Task<int> GetTotalCountAsync();
 }
