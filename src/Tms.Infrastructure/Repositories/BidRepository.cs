@@ -13,16 +13,6 @@ public class BidRepository(TmsDbContext dbContext) : IBidRepository
 {
     private readonly DbSet<BidEntity> _dbset = dbContext.Set<BidEntity>();
 
-    public virtual async Task<BidEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<BidEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public virtual async Task<BidEntity> AddAsync(BidEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -40,5 +30,31 @@ public class BidRepository(TmsDbContext dbContext) : IBidRepository
     {
         _dbset.Remove(entity);
         await dbContext.SaveChangesAsync();
+    }
+
+    // should apply dapper
+    public virtual async Task<IEnumerable<BidEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
+    public virtual async Task<BidEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
+    public virtual async Task<IEnumerable<BidEntity>> GetBidsByTenderAsync(int tenderId)
+    {
+        return await _dbset
+            .AsNoTracking()
+            .Where(b => b.TenderId == tenderId)
+            .ToListAsync();
+    }
+
+    public virtual async Task<bool> VendorHasBidOnTenderAsync(int vendorId, int tenderId)
+    {
+        return await _dbset
+            .AsNoTracking()
+            .AnyAsync(b => b.VendorId == vendorId && b.TenderId == tenderId);
     }
 }

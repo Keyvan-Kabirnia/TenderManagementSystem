@@ -17,4 +17,6 @@ public interface IBidRepository
     Task UpdateAsync(BidEntity entity);
 
     Task DeleteAsync(BidEntity entity);
+    Task<IEnumerable<BidEntity>> GetBidsByTenderAsync(int tenderId);
+    Task<bool> VendorHasBidOnTenderAsync(int vendorId, int tenderId);
 }

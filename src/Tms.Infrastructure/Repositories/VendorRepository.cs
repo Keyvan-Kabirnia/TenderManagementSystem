@@ -13,32 +13,59 @@ public class VendorRepository(TmsDbContext dbContext) : IVendorRepository
 {
     private readonly DbSet<VendorEntity> _dbset = dbContext.Set<VendorEntity>();
 
-    public virtual async Task<VendorEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<VendorEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
-    public virtual async Task<VendorEntity> AddAsync(VendorEntity entity)
+    public async Task<VendorEntity> AddAsync(VendorEntity entity)
     {
         await _dbset.AddAsync(entity);
         await dbContext.SaveChangesAsync();
         return entity;
     }
 
-    public virtual async Task UpdateAsync(VendorEntity entity)
+    public async Task UpdateAsync(VendorEntity entity)
     {
         _dbset.Update(entity);
         await dbContext.SaveChangesAsync();
     }
 
-    public virtual async Task DeleteAsync(VendorEntity entity)
+    public async Task DeleteAsync(VendorEntity entity)
     {
         _dbset.Remove(entity);
         await dbContext.SaveChangesAsync();
+    }
+
+    // should apply dapper
+    public async Task<VendorEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
+    public async Task<IEnumerable<VendorEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
+    public async Task<VendorEntity?> GetVendorWithBidsAsync(int id)
+    {
+        return await _dbset
+            .AsNoTracking()
+            .Include(v => v.User)
+            .Include(v => v.Bids)
+            .ThenInclude(b => b.Tender)
+            .FirstOrDefaultAsync(v => v.Id == id);
+    }
+
+    public async Task<IEnumerable<VendorEntity>> GetVendorsWithBidSummaryAsync(int page, int pageSize)
+    {
+        return await _dbset
+            .AsNoTracking()
+            .Include(v=>v.User)
+            .Include(v => v.Bids)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _dbset.CountAsync();
     }
 }

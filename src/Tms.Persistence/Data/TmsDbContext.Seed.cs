@@ -12,28 +12,29 @@ public partial class TmsDbContext
 {
     public static CategoryEntity[] _categoryEntitySeeds =
         [
-            new() { Name = "Category 1", Description = "Description of Category 1"},
-            new() { Name = "Category 2", Description = "Description of Category 2"},
-            new() { Name = "Category 3", Description = "Description of Category 3"},
-            new() { Name = "Category 4", Description = "Description of Category 4"},
+            new() {Id=1, Name = "Category 1", Description = "Description of Category 1"},
+            new() {Id=2, Name = "Category 2", Description = "Description of Category 2"},
+            new() {Id=3, Name = "Category 3", Description = "Description of Category 3"},
+            new() {Id=4, Name = "Category 4", Description = "Description of Category 4"},
         ];
 
     public static StatusEntity[] _statusEntitySeeds =
         [
-            new() { Name = "Open", Description = "Tender is open for biding.", Type = "Tender"},
-            new() { Name = "Close", Description = "Tender is close for biding.", Type = "Tender"},
-            new() { Name = "Canceled", Description = "Tender is canceled.", Type = "Tender"},
+            new() {Id=1, Name = "Open", Description = "Tender is open for biding.", Type = "Tender"},
+            new() {Id=2, Name = "Close", Description = "Tender is close for biding.", Type = "Tender"},
+            new() {Id=3, Name = "Canceled", Description = "Tender is canceled.", Type = "Tender"},
 
-            new() { Name = "Pending", Description = "Bid is pending for review.", Type = "Bid"},
-            new() { Name = "Approved", Description = "Bid is approved.", Type = "Bid"},
-            new() { Name = "Rejected", Description = "Bid is rejected.", Type = "Bid"},
-            new() { Name = "Withdrawn", Description = "Bid is withdrawn.", Type = "Bid"},
+            new() {Id=4, Name = "Pending", Description = "Bid is pending for review.", Type = "Bid"},
+            new() {Id=5, Name = "Approved", Description = "Bid is approved.", Type = "Bid"},
+            new() {Id=6, Name = "Rejected", Description = "Bid is rejected.", Type = "Bid"},
+            new() {Id=7, Name = "Withdrawn", Description = "Bid is withdrawn.", Type = "Bid"},
         ];
 
     public static UserEntity[] _admins =
         [
             new()
             {
+                Id = 1,
                 UserName = "Admin",
                 Email = "Admin@TenderManagement.com",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!"),

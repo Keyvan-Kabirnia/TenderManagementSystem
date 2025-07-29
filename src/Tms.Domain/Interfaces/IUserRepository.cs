@@ -17,4 +17,7 @@ public interface IUserRepository
     Task UpdateAsync(UserEntity entity);
 
     Task DeleteAsync(UserEntity entity);
+    Task<UserEntity?> GetByUserNameAsync(string userName);
+    Task<bool> UserNameExistsAsync(string userName);
+    Task<bool> EmailExistsAsync(string email);
 }
