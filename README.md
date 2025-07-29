@@ -1,9 +1,31 @@
-# Admin User information
-UserName = "Admin"
+## Running the Application
 
-Email = "Admin@TenderManagement.com"
+- **No need to attach a database backup**:  
+  The application uses the **Code-First** approach with Entity Framework. When you run the app, it will automatically:
+  - Create the database
+  - Apply migrations
+  - Seed initial data
 
-Password = "Admin123!"
+- **Check your connection string**:  
+  Make sure the connection string in `appsettings.Development.json` is correctly configured for your local environment.  
+  This includes:
+  - Server name or IP
+  - Port (if applicable)
+  - SQL Server credentials
+
+## Admin User Information
+
+Use the following credentials to log in as the default administrator:
+
+| Field     | Value                          |
+|-----------|--------------------------------|
+| Username  | `Admin`                        |
+| Email     | `Admin@TenderManagement.com`   |
+| Password  | `Admin123!`                    |
+
+> These credentials are seeded automatically when the application is first run.
+
+
 
 # ERD
 
