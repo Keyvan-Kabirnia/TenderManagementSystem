@@ -17,5 +17,5 @@ public class DbConfiguration
     public bool MultipleActiveResultSets { get; set; }
 
     public string ConnectionString =>
-        $"Server={Server},{Port};Database={DbName};User Id={UserId};Password={Password}!;TrustServerCertificate={TrustServerCertificate};MultipleActiveResultSets={MultipleActiveResultSets}";
+        $"Server={Server},{Port};Database={DbName};User Id={UserId};Password={Password};TrustServerCertificate={TrustServerCertificate};MultipleActiveResultSets={MultipleActiveResultSets}";
 }
