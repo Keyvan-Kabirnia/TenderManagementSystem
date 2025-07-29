@@ -13,16 +13,6 @@ public class CategoryRepository(TmsDbContext dbContext) : ICategoryRepository
 {
     private readonly DbSet<CategoryEntity> _dbset = dbContext.Set<CategoryEntity>();
 
-    public virtual async Task<CategoryEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<CategoryEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public virtual async Task<CategoryEntity> AddAsync(CategoryEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -41,4 +31,16 @@ public class CategoryRepository(TmsDbContext dbContext) : ICategoryRepository
         _dbset.Remove(entity);
         await dbContext.SaveChangesAsync();
     }
+
+    // should apply dapper
+    public virtual async Task<IEnumerable<CategoryEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
+    public virtual async Task<CategoryEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
 }

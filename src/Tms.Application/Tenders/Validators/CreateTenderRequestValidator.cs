@@ -3,9 +3,9 @@ using Tms.Application.Tenders.Requests;
 
 namespace Tms.Application.Tenders.Validators;
 
-public class CreateTenderCommandValidator : AbstractValidator<CreateTenderRequest>
+public class CreateTenderRequestValidator : AbstractValidator<CreateTenderRequest>
 {
-    public CreateTenderCommandValidator()
+    public CreateTenderRequestValidator()
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required")
@@ -18,13 +18,6 @@ public class CreateTenderCommandValidator : AbstractValidator<CreateTenderReques
         RuleFor(x => x.Deadline)
             .NotEmpty().WithMessage("Deadline is required")
             .GreaterThan(DateTime.UtcNow).WithMessage("Deadline must be in the future");
-
-        RuleFor(x => x.EstimatedBudget)
-            .GreaterThan(0).When(x => x.EstimatedBudget.HasValue)
-            .WithMessage("Estimated budget must be greater than 0");
-
-        RuleFor(x => x.Requirements)
-            .MaximumLength(5000).WithMessage("Requirements cannot exceed 5000 characters");
 
         RuleFor(x => x.CategoryId)
             .GreaterThan(0).WithMessage("Category is required");

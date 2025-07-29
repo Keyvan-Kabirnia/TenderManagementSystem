@@ -13,16 +13,6 @@ public class StatusRepository(TmsDbContext dbContext) : IStatusRepository
 {
     private readonly DbSet<StatusEntity> _dbset = dbContext.Set<StatusEntity>();
 
-    public virtual async Task<StatusEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<StatusEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public virtual async Task<StatusEntity> AddAsync(StatusEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -41,4 +31,16 @@ public class StatusRepository(TmsDbContext dbContext) : IStatusRepository
         _dbset.Remove(entity);
         await dbContext.SaveChangesAsync();
     }
+
+    // should apply dapper
+    public virtual async Task<StatusEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
+    public virtual async Task<IEnumerable<StatusEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
 }

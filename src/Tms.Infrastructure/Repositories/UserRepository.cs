@@ -13,16 +13,6 @@ public class UserRepository(TmsDbContext dbContext) : IUserRepository
 {
     private readonly DbSet<UserEntity> _dbset = dbContext.Set<UserEntity>();
 
-    public virtual async Task<UserEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<UserEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public virtual async Task<UserEntity> AddAsync(UserEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -43,6 +33,16 @@ public class UserRepository(TmsDbContext dbContext) : IUserRepository
     }
 
     // should apply dapper
+    public virtual async Task<UserEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
+    public virtual async Task<IEnumerable<UserEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
     public virtual async Task<UserEntity?> GetByUserNameAsync(string userName)
     {
         return await _dbset.AsNoTracking().FirstOrDefaultAsync(u => u.UserName == userName);
@@ -50,11 +50,11 @@ public class UserRepository(TmsDbContext dbContext) : IUserRepository
 
     public virtual async Task<bool> UserNameExistsAsync(string userName)
     {
-        return await _dbset.AnyAsync(u => u.UserName == userName);
+        return await _dbset.AsNoTracking().AnyAsync(u => u.UserName == userName);
     }
 
     public virtual async Task<bool> EmailExistsAsync(string email)
     {
-        return await _dbset.AnyAsync(u => u.Email == email);
+        return await _dbset.AsNoTracking().AnyAsync(u => u.Email == email);
     }
 }

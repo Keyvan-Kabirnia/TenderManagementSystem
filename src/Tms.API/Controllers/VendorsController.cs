@@ -4,20 +4,16 @@ using Tms.Application.DTOs.Common;
 using Tms.Application.DTOs.Vendor;
 using Tms.Application.Vendors.Requests;
 using Tms.Application.Vendors.Queries;
+using FluentValidation;
+using Tms.Application.Vendors.Validators;
+using Tms.Application.Auth.Validators;
 
 namespace Tms.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class VendorsController : ControllerBase
+public class VendorsController(IMediator mediator, IValidator<CreateVendorRequest> createVendorRequestValidator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public VendorsController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet]
     public async Task<ActionResult<PagedResult<VendorDto>>> GetVendors([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
@@ -29,10 +25,10 @@ public class VendorsController : ControllerBase
                 PageSize = pageSize
             };
 
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
             return Ok(result);
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while retrieving vendors" });
         }
@@ -44,7 +40,7 @@ public class VendorsController : ControllerBase
         try
         {
             var query = new GetVendorByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
 
             if (result == null)
             {
@@ -53,7 +49,7 @@ public class VendorsController : ControllerBase
 
             return Ok(result);
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while retrieving the vendor" });
         }
@@ -64,8 +60,14 @@ public class VendorsController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(request);
-            return CreatedAtAction(nameof(GetVendor), new { id = result.Id }, result);
+            var validationResult = await createVendorRequestValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var result = await mediator.Send(request);
+            return Ok(result);
         }
         catch (InvalidOperationException ex)
         {
@@ -76,4 +78,4 @@ public class VendorsController : ControllerBase
             return StatusCode(500, new { message = "An error occurred while creating the vendor" });
         }
     }
-} 
+}

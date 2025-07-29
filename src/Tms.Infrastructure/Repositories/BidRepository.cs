@@ -13,16 +13,6 @@ public class BidRepository(TmsDbContext dbContext) : IBidRepository
 {
     private readonly DbSet<BidEntity> _dbset = dbContext.Set<BidEntity>();
 
-    public virtual async Task<BidEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<BidEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public virtual async Task<BidEntity> AddAsync(BidEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -43,6 +33,16 @@ public class BidRepository(TmsDbContext dbContext) : IBidRepository
     }
 
     // should apply dapper
+    public virtual async Task<IEnumerable<BidEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
+    public virtual async Task<BidEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
     public virtual async Task<IEnumerable<BidEntity>> GetBidsByTenderAsync(int tenderId)
     {
         return await _dbset

@@ -8,6 +8,5 @@ namespace Tms.Domain.Enums;
 public enum UserRole
 {
     Admin,
-    User,
     Vendor
 }

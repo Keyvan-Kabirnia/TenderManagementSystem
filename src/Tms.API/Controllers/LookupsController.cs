@@ -6,7 +6,7 @@ using Tms.Application.Lookups.Queries;
 namespace Tms.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/")]
 public class LookupsController(IMediator mediator) : ControllerBase
 {
     [HttpGet("categories")]
@@ -18,7 +18,7 @@ public class LookupsController(IMediator mediator) : ControllerBase
             var result = await mediator.Send(query);
             return Ok(result);
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while retrieving categories" });
         }
@@ -33,7 +33,7 @@ public class LookupsController(IMediator mediator) : ControllerBase
             var result = await mediator.Send(query);
             return Ok(result);
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while retrieving statuses" });
         }

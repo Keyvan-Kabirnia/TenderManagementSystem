@@ -9,7 +9,6 @@ public class BidDto
     public decimal Amount { get; set; }
     public string Comments { get; set; } = string.Empty;
     public DateTime SubmissionDate { get; set; }
-    public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public VendorDto Vendor { get; set; } = null!;

@@ -13,16 +13,6 @@ public class TenderRepository(TmsDbContext dbContext) : ITenderRepository
 {
     private readonly DbSet<TenderEntity> _dbset = dbContext.Set<TenderEntity>();
 
-    public virtual async Task<TenderEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public virtual async Task<IEnumerable<TenderEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public virtual async Task<TenderEntity> AddAsync(TenderEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -43,6 +33,16 @@ public class TenderRepository(TmsDbContext dbContext) : ITenderRepository
     }
 
     // should apply dapper
+    public virtual async Task<TenderEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
+    public virtual async Task<IEnumerable<TenderEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
     public virtual async Task<TenderEntity?> GetTenderWithDetailsAsync(int id)
     {
         return await _dbset

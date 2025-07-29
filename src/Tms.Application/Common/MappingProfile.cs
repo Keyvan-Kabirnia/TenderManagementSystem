@@ -22,13 +22,14 @@ public class MappingProfile : Profile
         // Tender mappings
         CreateMap<TenderEntity, TenderDto>();
         CreateMap<TenderEntity, TenderDetailDto>();
-        CreateMap<Tenders.Requests.CreateTenderRequest, TenderEntity>();
-        CreateMap<Tenders.Requests.UpdateTenderRequest, TenderEntity>();
+        CreateMap<CreateTenderRequest, TenderEntity>();
+        CreateMap<UpdateTenderRequest, TenderEntity>();
 
         // Vendor mappings
-        CreateMap<VendorEntity, VendorDto>();
+        CreateMap<VendorEntity, VendorDto>()
+            .ForMember(dest=> dest.Email, opt => opt.MapFrom(src => src.User.Email));
         CreateMap<VendorEntity, VendorDetailDto>();
-        CreateMap<Vendors.Requests.CreateVendorRequest, VendorEntity>();
+        CreateMap<CreateVendorRequest, VendorEntity>();
 
         // Bid mappings
         CreateMap<BidEntity, BidDto>();

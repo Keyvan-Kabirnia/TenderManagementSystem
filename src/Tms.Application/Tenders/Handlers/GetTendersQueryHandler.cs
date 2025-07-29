@@ -7,23 +7,15 @@ using Tms.Domain.Interfaces;
 
 namespace Tms.Application.Tenders.Handlers;
 
-public class GetTendersQueryHandler : IRequestHandler<GetTendersQuery, PagedResult<TenderDto>>
+public class GetTendersQueryHandler(ITenderRepository tenderRepository, IMapper mapper) 
+    : IRequestHandler<GetTendersQuery, PagedResult<TenderDto>>
 {
-    private readonly ITenderRepository _tenderRepository;
-    private readonly IMapper _mapper;
-
-    public GetTendersQueryHandler(ITenderRepository tenderRepository, IMapper mapper)
-    {
-        _tenderRepository = tenderRepository;
-        _mapper = mapper;
-    }
-
     public async Task<PagedResult<TenderDto>> Handle(GetTendersQuery request, CancellationToken cancellationToken)
     {
-        var tenders = await _tenderRepository.GetTendersWithCategoryAndStatusAsync(request.Page, request.PageSize);
-        var totalCount = await _tenderRepository.GetTotalCountAsync();
+        var tenders = await tenderRepository.GetTendersWithCategoryAndStatusAsync(request.Page, request.PageSize);
+        var totalCount = await tenderRepository.GetTotalCountAsync();
 
-        var tenderDtos = _mapper.Map<IEnumerable<TenderDto>>(tenders);
+        var tenderDtos = mapper.Map<IEnumerable<TenderDto>>(tenders);
 
         return new PagedResult<TenderDto>
         {

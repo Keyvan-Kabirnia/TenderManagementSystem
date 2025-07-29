@@ -8,9 +8,6 @@ public class TenderDto
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public DateTime Deadline { get; set; }
-    public decimal? EstimatedBudget { get; set; }
-    public string Requirements { get; set; } = string.Empty;
-    public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public CategoryDto Category { get; set; } = null!;

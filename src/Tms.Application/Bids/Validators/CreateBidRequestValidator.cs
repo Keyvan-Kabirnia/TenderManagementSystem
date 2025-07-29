@@ -3,9 +3,9 @@ using Tms.Application.Bids.Requests;
 
 namespace Tms.Application.Bids.Validators;
 
-public class CreateBidCommandValidator : AbstractValidator<CreateBidRequest>
+public class CreateBidRequestValidator : AbstractValidator<CreateBidRequest>
 {
-    public CreateBidCommandValidator()
+    public CreateBidRequestValidator()
     {
         RuleFor(x => x.TenderId)
             .GreaterThan(0).WithMessage("Tender is required");

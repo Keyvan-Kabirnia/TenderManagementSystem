@@ -13,16 +13,6 @@ public class VendorRepository(TmsDbContext dbContext) : IVendorRepository
 {
     private readonly DbSet<VendorEntity> _dbset = dbContext.Set<VendorEntity>();
 
-    public async Task<VendorEntity?> GetByIdAsync(int id)
-    {
-        return await _dbset.FindAsync(id);
-    }
-
-    public async Task<IEnumerable<VendorEntity>> GetAllAsync()
-    {
-        return await _dbset.ToListAsync();
-    }
-
     public async Task<VendorEntity> AddAsync(VendorEntity entity)
     {
         await _dbset.AddAsync(entity);
@@ -42,9 +32,22 @@ public class VendorRepository(TmsDbContext dbContext) : IVendorRepository
         await dbContext.SaveChangesAsync();
     }
 
+    // should apply dapper
+    public async Task<VendorEntity?> GetByIdAsync(int id)
+    {
+        return await _dbset.FindAsync(id);
+    }
+
+    public async Task<IEnumerable<VendorEntity>> GetAllAsync()
+    {
+        return await _dbset.ToListAsync();
+    }
+
     public async Task<VendorEntity?> GetVendorWithBidsAsync(int id)
     {
         return await _dbset
+            .AsNoTracking()
+            .Include(v => v.User)
             .Include(v => v.Bids)
             .ThenInclude(b => b.Tender)
             .FirstOrDefaultAsync(v => v.Id == id);
@@ -54,6 +57,7 @@ public class VendorRepository(TmsDbContext dbContext) : IVendorRepository
     {
         return await _dbset
             .AsNoTracking()
+            .Include(v=>v.User)
             .Include(v => v.Bids)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

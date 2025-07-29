@@ -5,20 +5,15 @@ using Tms.Application.DTOs.Common;
 using Tms.Application.DTOs.Tender;
 using Tms.Application.Tenders.Requests;
 using Tms.Application.Tenders.Queries;
+using FluentValidation;
+using Tms.Application.Auth.Validators;
 
 namespace Tms.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TendersController : ControllerBase
+public class TendersController(IMediator mediator, IValidator<CreateTenderRequest> createTenderRequestValidator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public TendersController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet]
     public async Task<ActionResult<PagedResult<TenderDto>>> GetTenders([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
@@ -30,10 +25,10 @@ public class TendersController : ControllerBase
                 PageSize = pageSize
             };
 
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
             return Ok(result);
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while retrieving tenders" });
         }
@@ -45,7 +40,7 @@ public class TendersController : ControllerBase
         try
         {
             var query = new GetTenderByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
 
             if (result == null)
             {
@@ -54,7 +49,7 @@ public class TendersController : ControllerBase
 
             return Ok(result);
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while retrieving the tender" });
         }
@@ -66,14 +61,20 @@ public class TendersController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(request);
-            return CreatedAtAction(nameof(GetTender), new { id = result.Id }, result);
+            var validationResult = await createTenderRequestValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var result = await mediator.Send(request);
+            return Ok(result);
         }
         catch (InvalidOperationException ex)
         {
             return BadRequest(new { message = ex.Message });
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while creating the tender" });
         }
@@ -85,14 +86,14 @@ public class TendersController : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(request);
+            var result = await mediator.Send(request);
             return Ok(result);
         }
         catch (InvalidOperationException ex)
         {
             return BadRequest(new { message = ex.Message });
         }
-        catch (Exception ex)
+        catch
         {
             return StatusCode(500, new { message = "An error occurred while updating the tender" });
         }
@@ -105,7 +106,8 @@ public class TendersController : ControllerBase
         try
         {
             var command = new DeleteTenderRequest { Id = id };
-            await _mediator.Send(command);
+            await mediator.Send(command);
+
             return NoContent();
         }
         catch (InvalidOperationException ex)
@@ -117,4 +119,4 @@ public class TendersController : ControllerBase
             return StatusCode(500, new { message = "An error occurred while deleting the tender" });
         }
     }
-} 
+}

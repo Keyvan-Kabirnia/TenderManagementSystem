@@ -4,5 +4,5 @@ namespace Tms.Application.DTOs.Tender;
 
 public class TenderDetailDto : TenderDto
 {
-    public IEnumerable<BidDto> Bids { get; set; } = new List<BidDto>();
+    public IEnumerable<BidDto> Bids { get; set; } = [];
 } 

@@ -3,9 +3,9 @@ using Tms.Application.Auth.Requests;
 
 namespace Tms.Application.Auth.Validators;
 
-public class LoginCommandValidator : AbstractValidator<LoginRequest>
+public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {
-    public LoginCommandValidator()
+    public LoginRequestValidator()
     {
         RuleFor(x => x.UserName)
             .NotEmpty().WithMessage("UserName is required")
