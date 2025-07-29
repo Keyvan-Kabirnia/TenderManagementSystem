@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: tender-management-sys-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Tender123!"
+    ports:
+      - "1433:1433"
+    volumes:
+      - tender-management-data:/var/opt/mssql
+    restart: unless-stopped
+    networks:
+      - tms-network
+
+volumes:
+  tender-management-data:
+
+networks:
+  tms-network:
+    driver: bridge
