@@ -23,7 +23,7 @@ erDiagram
         string PasswordHash
         int Role
         datetime CreatedAt
-        datetime UpdatedAt  -- nullable
+        datetime UpdatedAt  
     }
 
     VENDOR {
@@ -33,7 +33,7 @@ erDiagram
         string Phone
         int UserId FK
         datetime CreatedAt
-        datetime UpdatedAt  -- nullable
+        datetime UpdatedAt  
     }
 
     CATEGORY {
@@ -41,7 +41,7 @@ erDiagram
         string Name
         string Description
         datetime CreatedAt
-        datetime UpdatedAt  -- nullable
+        datetime UpdatedAt  
     }
 
     STATUS {
@@ -50,7 +50,7 @@ erDiagram
         string Description
         string Type
         datetime CreatedAt
-        datetime UpdatedAt  -- nullable
+        datetime UpdatedAt  
     }
 
     TENDER {
@@ -62,7 +62,7 @@ erDiagram
         int StatusId FK
         datetime Deadline
         datetime CreatedAt
-        datetime UpdatedAt  -- nullable
+        datetime UpdatedAt  
     }
 
     BID {
@@ -74,6 +74,6 @@ erDiagram
         int StatusId FK
         datetime SubmissionDate
         datetime CreatedAt
-        datetime UpdatedAt  -- nullable
+        datetime UpdatedAt  
     }
 ```
